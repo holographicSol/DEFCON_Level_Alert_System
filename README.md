@@ -10,3 +10,7 @@ Also pulls down data from NASA pertaining to annual mean global temperature and 
 
 Executable and source code:
 https://drive.google.com/drive/folders/1jZ5BSDSzS3y-XOmMqLBpdVosY758MLKy?usp=sharing
+
+
+Testing DEFCON 1 can be achieved by editing any DEFCON level in defcon_level.txt while disconnected
+from internet.
