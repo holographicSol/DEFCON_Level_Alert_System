@@ -16,3 +16,6 @@ Testing DEFCON 1 can be achieved by editing any DEFCON level in defcon_level.txt
 from internet.
 
 All writes are protected to a certain degree to prevent existing data from being overwritten unecessarily/with-invalid-data, this is primarily to preserve existing stored data. This makes an update more likely in the event that something on the server (defconlevel.com) changes and is preferrable to preserve exisiting data and attempt to prevent 'junk' from entering the front end and stored data.
+
+Please be polite with the sychronize timings.
+Defaults: DEFCON=3minutes, NASA=1hour.
