@@ -21,7 +21,7 @@ Blow it up, then go inside and grill some food.
     auto_gen_tbx_update_function.py
 
 WARNING! SETTING auto_setup TRUE WILL WIPE ANY POTENTIAL PROGRESS MADE TO THE MECHANIZED MODULES CREATED. IF CHANGES
-HAVE BEEN MADE TO AUTOGEN MODULES, BACK UP PERTAINING AUTOGEN MODULES BEFORE SETTING auto_setup TRUE.
+HAVE BEEN MADE TO AUTOGEN MODULES, BACK UP APERTAINING AUTOGEN MODULES BEFORE SETTING auto_setup TRUE.
 
 """
 
@@ -759,6 +759,35 @@ class App(QMainWindow):
         self.help_menu = QMenu(self)
         self.main_menu_bar = QMenuBar(self)
 
+        def d1_desc():
+            tbx_var[30].append(module_help.d1)
+
+        def d2_desc():
+            tbx_var[30].append(module_help.d2)
+
+        def d3_desc():
+            tbx_var[30].append(module_help.d3)
+
+        def d4_desc():
+            tbx_var[30].append(module_help.d4)
+
+        def d5_desc():
+            tbx_var[30].append(module_help.d5)
+
+        def about_function():
+            print(str('[' + str(datetime.datetime.now()) + '] [about_function] plugged in'))
+            tbx_var[30].setText('')
+            d1_desc()
+            tbx_var[30].append('')
+            d2_desc()
+            tbx_var[30].append('')
+            d3_desc()
+            tbx_var[30].append('')
+            d4_desc()
+            tbx_var[30].append('')
+            d5_desc()
+            tbx_var[30].verticalScrollBar().setValue(0)
+
         def app_activate():
             print(str('[' + str(datetime.datetime.now()) + '] [app_activate] plugged in'))
             shell.AppActivate(pid_main)
@@ -775,19 +804,6 @@ class App(QMainWindow):
 
             self.setWindowFlags(Qt.Window | Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint)
             self.show()
-
-        def about_function():
-            print(str('[' + str(datetime.datetime.now()) + '] [about_function] plugged in'))
-            d1_desc()
-            tbx_var[30].append('')
-            d2_desc()
-            tbx_var[30].append('')
-            d3_desc()
-            tbx_var[30].append('')
-            d4_desc()
-            tbx_var[30].append('')
-            d5_desc()
-            tbx_var[30].verticalScrollBar().setValue(0)
 
         def app_display_stays_on_bottom():
             global app_display_default_bool, app_display_stays_on_top_bool, app_display_stays_on_bottom_bool
@@ -991,21 +1007,6 @@ class App(QMainWindow):
                 str('[' + str(datetime.datetime.now()) + '] nasa_update_time: ' + str(nasa_update_time)))
             create_titlebar_menubar()
             restart_thread_1()
-
-        def d1_desc():
-            tbx_var[30].append(module_help.d1)
-
-        def d2_desc():
-            tbx_var[30].append(module_help.d2)
-
-        def d3_desc():
-            tbx_var[30].append(module_help.d3)
-
-        def d4_desc():
-            tbx_var[30].append(module_help.d4)
-
-        def d5_desc():
-            tbx_var[30].append(module_help.d5)
 
         # title_bar_toolbar
         def create_titlebar_menubar():
