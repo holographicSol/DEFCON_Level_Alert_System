@@ -14,3 +14,5 @@ https://drive.google.com/drive/folders/1jZ5BSDSzS3y-XOmMqLBpdVosY758MLKy?usp=sha
 
 Testing DEFCON 1 can be achieved by editing any DEFCON level in defcon_level.txt while disconnected
 from internet.
+
+All writes are protected to a certain degree to prevent existing data from being overwritten unecessarily/with-invalid-data, this is primarily to preserve existing stored data.
