@@ -26,7 +26,7 @@ HAVE BEEN MADE TO AUTOGEN MODULES, BACK UP APERTAINING AUTOGEN MODULES BEFORE SE
 """
 
 import os
-from superglobals import *
+# from superglobals import *
 # import sol_module as sol
 import sys
 import time
@@ -43,8 +43,8 @@ from PyQt5.QtWidgets import QPushButton, QLabel, QDesktopWidget
 from PyQt5.QtCore import Qt, QThread, QSize, QPoint, QCoreApplication, QTimer
 from PyQt5.QtMultimedia import *
 # import auto_gen_tbx_update_function
-import defcon_scraper_module
-import nasa_climate
+import module_defcon
+import module_nasa
 import module_help
 
 thread_nuclear_strike_imminent = []
@@ -2117,12 +2117,12 @@ class App(QMainWindow):
             print(debug_messages[0])
             tbx_var[0].append(debug_messages[0])
             debug_messages.remove(debug_messages[0])
-        if defcon_scraper_module.debug_output:
-            tbx_var[0].append(defcon_scraper_module.debug_output[0])
-            defcon_scraper_module.debug_output.remove(defcon_scraper_module.debug_output[0])
-        if nasa_climate.debug_output:
-            tbx_var[0].append(nasa_climate.debug_output[0])
-            nasa_climate.debug_output.remove(nasa_climate.debug_output[0])
+        if module_defcon.debug_output:
+            tbx_var[0].append(module_defcon.debug_output[0])
+            module_defcon.debug_output.remove(module_defcon.debug_output[0])
+        if module_nasa.debug_output:
+            tbx_var[0].append(module_nasa.debug_output[0])
+            module_nasa.debug_output.remove(module_nasa.debug_output[0])
 
     def center(self):
         qr = self.frameGeometry()
@@ -2320,8 +2320,11 @@ class Class0(QThread):
 
         defcon_level = []
 
-        if os.path.exists('./defcon_level.txt'):
-            with open('./defcon_level.txt', 'r') as fo:
+        if not os.path.exists('./data'):
+            os.mkdir('./data')
+
+        if os.path.exists('./data/defcon_level.txt'):
+            with open('./data/defcon_level.txt', 'r') as fo:
                 i = 0
                 for line in fo:
                     line = line.strip()
@@ -2412,7 +2415,7 @@ class Class0(QThread):
         global btnx_double_var, lblx_var, defcon_update_time
         time.sleep(3)
 
-        defcon_scraper_module.output = False
+        module_defcon.output = False
 
         while True:
             t0 = time.time()
@@ -2426,11 +2429,11 @@ class Class0(QThread):
                 self.set_defcon()
 
                 """ [2] GET DEFCON LEVELS """
-                defcon_scraper_module.get_defcon_levels(save_defcon_levels=True)
+                module_defcon.get_defcon_levels(save_defcon_levels=True)
                 self.set_defcon()
 
                 """ [3] GET DEFCON NEWS """
-                defcon_scraper_module.defcon_news(save_news=True)
+                module_defcon.defcon_news(save_news=True)
 
             except Exception as e:
                 technical_data = str('[' + str(datetime.datetime.now()) + '] [SYSTEM] [DEFCON] ' + str(e))
@@ -2456,8 +2459,12 @@ class Class1(QThread):
     def set_nasa_climate(self):
         global btnx_double_var
         nasa_climate_values = []
-        if os.path.exists('./nasa_climate.txt'):
-            with open('./nasa_climate.txt', 'r') as fo:
+
+        if not os.path.exists('./data'):
+            os.mkdir('./data')
+
+        if os.path.exists('./data/nasa_climate.txt'):
+            with open('./data/nasa_climate.txt', 'r') as fo:
                 for line in fo:
                     line = line.strip()
                     nasa_climate_values.append(line)
@@ -2485,7 +2492,7 @@ class Class1(QThread):
         global btnx_double_var, lblx_var, nasa_update_time
         time.sleep(3)
 
-        nasa_climate.output = True
+        module_nasa.output = True
 
         while True:
             t0 = time.time()
@@ -2499,7 +2506,7 @@ class Class1(QThread):
                 self.set_nasa_climate()
 
                 """ [2] GET NASA CLIMATE """
-                nasa_climate.nasa_climate()
+                module_nasa.nasa_climate()
                 self.set_nasa_climate()
 
             except Exception as e:
