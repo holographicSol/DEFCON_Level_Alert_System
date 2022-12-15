@@ -703,7 +703,7 @@ class App(QMainWindow):
         self.btn_NUKE_ALARM.resize(632 - (main_border_height*2), 20)
         # self.btn_NUKE_ALARM.setIcon(QIcon("./resources/image/minimize.png"))
         # self.btn_NUKE_ALARM.setIconSize(QSize(24, 16))
-        self.btn_NUKE_ALARM.setStyleSheet("""QPushButton{background-color: rgb(255, 0, 0);
+        self.btn_NUKE_ALARM.setStyleSheet("""QPushButton{background-color: rgb(0, 0, 0);
                 color: rgb(255, 255, 0);
                 border-top:0px solid rgb(0, 0, 0);
                 border-bottom:0px solid rgb(0, 0, 0);
@@ -723,7 +723,7 @@ class App(QMainWindow):
         self.btn_NUKE_ALARM.setText('NUCLEAR STRIKE IMMINENT')
         self.btn_NUKE_ALARM.installEventFilter(self.filter)
         ui_object_complete.append(self.btn_NUKE_ALARM)
-        self.btn_NUKE_ALARM.hide()
+        # self.btn_NUKE_ALARM.hide()
 
         self.btn_MUTE_NUKE_ALARM = QPushButton(self)
         self.btn_MUTE_NUKE_ALARM.move(632 - main_border_height - 80, main_border_height + (titlebar_height * 1))
@@ -2072,7 +2072,7 @@ class App(QMainWindow):
         tbx_var[0].resize((btnx_size * 6) + (btnx_sp_size * 6) - main_border_height * 2, int(btnx_size / 2) - btnx_sp_size + 20)
         tbx_var[0].show()
 
-        tbx_var[30].resize((btnx_size * 6) + (btnx_sp_size * 6) - main_border_height * 2, int(btnx_size + btnx_size / 2) + 10)
+        tbx_var[30].resize((btnx_size * 6) + (btnx_sp_size * 6) - main_border_height * 2, int(btnx_size + btnx_size / 2) + 26)
         tbx_var[30].show()
 
         self.titel_label_news.show()
@@ -2093,13 +2093,12 @@ class App(QMainWindow):
 
         thread_nuclear_strike_imminent = NUCLEAR_STRIKE_IMMINENT(self.btn_NUKE_ALARM, self.btn_MUTE_NUKE_ALARM)
 
-        # self.thread_0 = Class0()
-        # self.thread_1 = Class1()
         self.thread_0.start()
         self.thread_1.start()
 
         # if debug_enable_bool is True:
         #     debug_messages.append(str('[' + str(datetime.datetime.now()) + '] [App.initUI] displaying application'))
+
         self.show()
 
     @QtCore.pyqtSlot()
@@ -2261,6 +2260,7 @@ class NUCLEAR_STRIKE_IMMINENT(QThread):
         debug_messages.append(str('[' + str(datetime.datetime.now()) + '] [SYSTEM] [PLUGGED IN] NUCLEAR_STRIKE_IMMINENT PROCESS'))
         self.btn_NUKE_ALARM.show()
         self.btn_MUTE_NUKE_ALARM.show()
+        self.btn_NUKE_ALARM.setText('NUCLEAR STRIKE IMMINENT')
 
         while True:
             self.check_notification_state()
@@ -2306,7 +2306,24 @@ class NUCLEAR_STRIKE_IMMINENT(QThread):
         self.stop_notification_sound()
         debug_messages.append(str('[' + str(datetime.datetime.now()) + '] [SYSTEM] [SIREN] Attempting to stop'))
         player_default.stop()
-        self.btn_NUKE_ALARM.hide()
+        self.btn_NUKE_ALARM.setStyleSheet("""QPushButton{background-color: rgb(0, 0, 0);
+                                    color: rgb(255, 255, 0);
+                                    border-top:0px solid rgb(0, 0, 0);
+                                    border-bottom:0px solid rgb(0, 0, 0);
+                                    border-right:0px solid rgb(0, 0, 0);
+                                    border-left:0px solid rgb(0, 0, 0);}
+                                    QPushButton::hover {
+                                        background-color : rgb(0,0,155);
+                                    }
+                                    QPushButton::pressed {
+                                        color: rgb(255, 255, 0);
+                                        background-color : rgb(26,26,26);
+                                        border-top:8px solid rgb(14, 14, 14);
+                                        border-bottom:8px solid rgb(14, 14, 14);
+                                        border-right:8px solid rgb(14, 14, 14);
+                                        border-left:8px solid rgb(14, 14, 14);}
+                                    }""")
+        self.btn_NUKE_ALARM.setText('')
         self.btn_MUTE_NUKE_ALARM.hide()
         self.terminate()
 
