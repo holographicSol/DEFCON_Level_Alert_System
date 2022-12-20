@@ -44,7 +44,6 @@ from PyQt5.QtCore import Qt, QThread, QSize, QPoint, QCoreApplication, QTimer
 from PyQt5.QtMultimedia import *
 # import auto_gen_tbx_update_function
 import module_defcon
-import module_nasa
 import module_help
 
 thread_nuclear_strike_imminent = []
@@ -54,7 +53,6 @@ i = 0
 while i < 9:
     prev_defcon_level.append(None)
     i += 1
-nasa_update_time = 3600
 
 # Initialize Notification Player_default In Memory
 player_url_default = QUrl.fromLocalFile("./resources/audio/nuke_siren_0.mp3")
@@ -84,6 +82,9 @@ enable_title_bar_toolbar = True  # enables toolbar creation.
 debug_verbosity_bool = False  # enables verbose output
 debug_enable_bool = True
 pin_to_taskbar = False
+l_pin_to_taskbar = False
+r_pin_to_taskbar = False
+c_pin_to_taskbar = False
 configuration_override_size = False  # enables app_width_static and app_height_static to be set manually.
 reserve_btnx_bool = False
 reserve_btnx_double_bool = False
@@ -100,7 +101,7 @@ btnx_size_Y = btnx_size
 btnx_sp_size = 4  # set button spacing
 btnx_sp_size_Y = btnx_sp_size
 turn_page_reserved = [0]
-btnx_gen_max = 48  # maximum number of buttons to create (ensure btnx_gen_max is equally divisible by btnx_row_idx_max)
+btnx_gen_max = 42  # maximum number of buttons to create (ensure btnx_gen_max is equally divisible by btnx_row_idx_max)
 btnx_row_idx_max = 6  # maximum number of buttons in a row
 reserve_btnx_double = []
 
@@ -320,6 +321,7 @@ class ObjEveFilter(QObject):
         global app_height_static
         global pos_w_prev, pos_h_prev
         global pin_to_taskbar
+        global l_pin_to_taskbar, r_pin_to_taskbar, c_pin_to_taskbar
         
         obj_eve = obj, event
 
@@ -350,7 +352,12 @@ class ObjEveFilter(QObject):
             # set application window geometry
             if pin_to_taskbar is True:
                 app_height_pos = int(QDesktopWidget().availableGeometry().height()) - int(app_height_static)
-                event_filter_self[0].setGeometry(0, app_height_pos, app_width_static, app_height_static)
+                if l_pin_to_taskbar is True:
+                    event_filter_self[0].setGeometry(0, app_height_pos, app_width_static, app_height_static)
+                elif r_pin_to_taskbar is True:
+                    event_filter_self[0].setGeometry(QDesktopWidget().availableGeometry().width() - app_width_static, app_height_pos, app_width_static, app_height_static)
+                elif c_pin_to_taskbar is True:
+                    event_filter_self[0].setGeometry(int(QDesktopWidget().availableGeometry().width() / 2) - int(app_width_static / 2), app_height_pos, app_width_static, app_height_static)
             elif pin_to_taskbar is False:
                 app_height_pos = int(QDesktopWidget().availableGeometry().height() / 2) - int(app_height_static / 2)
                 app_width_pos = int(QDesktopWidget().availableGeometry().width() / 2) - int(app_width_static / 2)
@@ -430,7 +437,12 @@ class ObjEveFilter(QObject):
             # set application window geometry
             if pin_to_taskbar is True:
                 app_height_pos = int(QDesktopWidget().availableGeometry().height()) - int(app_height_static)
-                event_filter_self[0].setGeometry(0, app_height_pos, app_width_static, app_height_static)
+                if l_pin_to_taskbar is True:
+                    event_filter_self[0].setGeometry(0, app_height_pos, app_width_static, app_height_static)
+                elif r_pin_to_taskbar is True:
+                    event_filter_self[0].setGeometry(QDesktopWidget().availableGeometry().width() - app_width_static, app_height_pos, app_width_static, app_height_static)
+                elif c_pin_to_taskbar is True:
+                    event_filter_self[0].setGeometry(int(QDesktopWidget().availableGeometry().width() / 2) - int(app_width_static / 2), app_height_pos, app_width_static, app_height_static)
             elif pin_to_taskbar is False:
                 app_height_pos = int(QDesktopWidget().availableGeometry().height() / 2) - int(app_height_static / 2)
                 app_width_pos = int(QDesktopWidget().availableGeometry().width() / 2) - int(app_width_static / 2)
@@ -558,7 +570,7 @@ class App(QMainWindow):
         global auto_generate, enable_title_bar_toolbar
 
         self.thread_0 = Class0()
-        self.thread_1 = Class1()
+        # self.thread_1 = Class1()
 
         def function_mute_default_player():
             global mute_default_player
@@ -625,7 +637,7 @@ class App(QMainWindow):
 
         self.base_label_0 = QLabel(self)
         self.base_label_0.move(main_border_height, main_border_height + (btn_size_titlebar * 3) + 6)
-        self.base_label_0.resize(632 - (main_border_height*2), 938 - (main_border_height*2) - (btn_size_titlebar * 2) - 10)
+        self.base_label_0.resize(632 - (main_border_height*2), 900 - (main_border_height*2) - (btn_size_titlebar * 2) - 20)
         self.base_label_0.setStyleSheet("""QLabel{background-color: rgb(12, 12, 12);
                     color: rgb(255, 255, 255);
                     border-top:2px solid rgb(0, 0, 0);
@@ -663,20 +675,6 @@ class App(QMainWindow):
         self.titel_label_defcon.setAlignment(Qt.AlignCenter)
         ui_object_complete.append(self.titel_label_defcon)
         self.titel_label_defcon.installEventFilter(self.filter)
-
-        self.titel_label_news = QLabel(self)
-        self.titel_label_news.move(main_border_height, main_border_height + (btn_size_titlebar * 33) + 10)
-        self.titel_label_news.resize((btnx_size * 6) + (btnx_sp_size * 7), 24)
-        self.titel_label_news.setText('NASA PLANETARY VITAL SIGNS')
-        self.titel_label_news.setStyleSheet("""QLabel{background-color: rgb(0, 0, 0);
-                    color: rgb(255, 255, 255);
-                    border-top:2px solid rgb(0, 0, 0);
-                    border-bottom:2px solid rgb(0, 0, 0);
-                    border-right:2px solid rgb(0, 0, 0);
-                    border-left:2px solid rgb(0, 0, 0);}""")
-        self.titel_label_news.setAlignment(Qt.AlignCenter)
-        ui_object_complete.append(self.titel_label_news)
-        self.titel_label_news.installEventFilter(self.filter)
 
         # button: quit (use main_border_height)
         self.btn_quit = QPushButton(self)
@@ -890,26 +888,64 @@ class App(QMainWindow):
         create_lnk()
         run_at_startup_check()
 
-        def attatch_to_taskbar():
-            global pin_to_taskbar, pos_w_prev, pos_h_prev, btnx_double_var
-            if pin_to_taskbar is False:
+        def l_attatch_to_taskbar():
+            global pin_to_taskbar, pos_w_prev
+            global l_pin_to_taskbar, r_pin_to_taskbar, c_pin_to_taskbar
+            if l_pin_to_taskbar is False:
+                r_pin_to_taskbar = False
+                c_pin_to_taskbar = False
+                l_pin_to_taskbar = True
                 pin_to_taskbar = True
                 pos_w_prev = int()
-            elif pin_to_taskbar is True:
+
+            elif l_pin_to_taskbar is True:
                 pin_to_taskbar = False
+                r_pin_to_taskbar = False
+                c_pin_to_taskbar = False
+                l_pin_to_taskbar = False
+                pos_w_prev = int()
+            create_titlebar_menubar()
+
+        def r_attatch_to_taskbar():
+            global pin_to_taskbar, pos_w_prev
+            global l_pin_to_taskbar, r_pin_to_taskbar, c_pin_to_taskbar
+            if r_pin_to_taskbar is False:
+                l_pin_to_taskbar = False
+                c_pin_to_taskbar = False
+                r_pin_to_taskbar = True
+                pin_to_taskbar = True
                 pos_w_prev = int()
 
+            elif r_pin_to_taskbar is True:
+                pin_to_taskbar = False
+                l_pin_to_taskbar = False
+                c_pin_to_taskbar = False
+                r_pin_to_taskbar = False
+                pos_w_prev = int()
+            create_titlebar_menubar()
+
+        def c_attatch_to_taskbar():
+            global pin_to_taskbar, pos_w_prev
+            global l_pin_to_taskbar, r_pin_to_taskbar, c_pin_to_taskbar
+            if c_pin_to_taskbar is False:
+                l_pin_to_taskbar = False
+                r_pin_to_taskbar = False
+                c_pin_to_taskbar = True
+                pin_to_taskbar = True
+                pos_w_prev = int()
+
+            elif c_pin_to_taskbar is True:
+                pin_to_taskbar = False
+                l_pin_to_taskbar = False
+                r_pin_to_taskbar = False
+                c_pin_to_taskbar = False
+                pos_w_prev = int()
             create_titlebar_menubar()
 
         def restart_thread_0():
             if self.thread_0.isRunning():
                 self.thread_0.stop_thread()
                 self.thread_0.start()
-
-        def restart_thread_1():
-            if self.thread_1.isRunning():
-                self.thread_1.stop_thread()
-                self.thread_1.start()
 
         def function_defcon_update_time_30():
             global defcon_update_time
@@ -958,58 +994,12 @@ class App(QMainWindow):
             create_titlebar_menubar()
             restart_thread_0()
 
-        def function_nasa_update_time_30():
-            global nasa_update_time
-            nasa_update_time = 30
-            debug_messages.append(
-                str('[' + str(datetime.datetime.now()) + '] nasa_update_time: ' + str(nasa_update_time)))
-            create_titlebar_menubar()
-            restart_thread_1()
-
-        def function_nasa_update_time_60():
-            global nasa_update_time
-            nasa_update_time = 60
-            debug_messages.append(
-                str('[' + str(datetime.datetime.now()) + '] nasa_update_time: ' + str(nasa_update_time)))
-            create_titlebar_menubar()
-            restart_thread_1()
-
-        def function_nasa_update_time_300():
-            global nasa_update_time
-            nasa_update_time = 300
-            debug_messages.append(
-                str('[' + str(datetime.datetime.now()) + '] nasa_update_time: ' + str(nasa_update_time)))
-            create_titlebar_menubar()
-            restart_thread_1()
-
-        def function_nasa_update_time_600():
-            global nasa_update_time
-            nasa_update_time = 600
-            debug_messages.append(
-                str('[' + str(datetime.datetime.now()) + '] nasa_update_time: ' + str(nasa_update_time)))
-            create_titlebar_menubar()
-            restart_thread_1()
-
-        def function_nasa_update_time_1800():
-            global nasa_update_time
-            nasa_update_time = 1800
-            debug_messages.append(
-                str('[' + str(datetime.datetime.now()) + '] nasa_update_time: ' + str(nasa_update_time)))
-            create_titlebar_menubar()
-            restart_thread_1()
-
-        def function_nasa_update_time_3600():
-            global nasa_update_time
-            nasa_update_time = 3600
-            debug_messages.append(
-                str('[' + str(datetime.datetime.now()) + '] nasa_update_time: ' + str(nasa_update_time)))
-            create_titlebar_menubar()
-            restart_thread_1()
-
         # title_bar_toolbar
         def create_titlebar_menubar():
             # debug_messages.append(str('[' + str(datetime.datetime.now()) + '] plugged in: create_titlebar_menubar'))
             global btnx_titlebar_toolbar_var, app_display_default_bool, app_display_stays_on_top_bool, app_display_stays_on_bottom_bool, defcon_update_time
+            global pin_to_taskbar
+            global l_pin_to_taskbar, r_pin_to_taskbar, c_pin_to_taskbar
 
             self.main_menu_bar.clear()
             self.file_menu.clear()
@@ -1064,46 +1054,28 @@ class App(QMainWindow):
 
             self.edit_menu.addSeparator()
             self.edit_menu.addSeparator()
-            self.edit_menu.addAction(' NASA')
-
-            if nasa_update_time == 30:
-                self.edit_menu.addAction(QIcon('./resources/image/check.png'), '       Update time 30 Seconds', function_nasa_update_time_30)
-            else:
-                self.edit_menu.addAction('       Update time 30 Seconds', function_nasa_update_time_30)
-
-            if nasa_update_time == 60:
-                self.edit_menu.addAction(QIcon('./resources/image/check.png'), '       Update time 1 minute', function_nasa_update_time_60)
-            else:
-                self.edit_menu.addAction('       Update time 1 minute', function_nasa_update_time_60)
-
-            if nasa_update_time == 300:
-                self.edit_menu.addAction(QIcon('./resources/image/check.png'), '       Update time 5 minutes', function_nasa_update_time_300)
-            else:
-                self.edit_menu.addAction('       Update time 5 minutes', function_nasa_update_time_300)
-
-            if nasa_update_time == 600:
-                self.edit_menu.addAction(QIcon('./resources/image/check.png'), '       Update time 10 minutes', function_nasa_update_time_600)
-            else:
-                self.edit_menu.addAction('       Update time 10 minutes', function_nasa_update_time_600)
-
-            if nasa_update_time == 1800:
-                self.edit_menu.addAction(QIcon('./resources/image/check.png'), '       Update time 30 minutes', function_nasa_update_time_1800)
-            else:
-                self.edit_menu.addAction('       Update time 30 minutes', function_nasa_update_time_1800)
-
-            if nasa_update_time == 3600:
-                self.edit_menu.addAction(QIcon('./resources/image/check.png'), '       Update time 1 hour', function_nasa_update_time_3600)
-            else:
-                self.edit_menu.addAction('       Update time 1 hour', function_nasa_update_time_3600)
 
             self.view_menu.setTitle('View')
             self.view_menu.addSeparator()
-            if pin_to_taskbar is True:
-                self.view_menu.addAction(QIcon('./resources/image/check.png'), ' Attach to taskbar', attatch_to_taskbar)
-            else:
-                self.view_menu.addAction(' Attach to taskbar', attatch_to_taskbar)
-            self.view_menu.addSeparator()
 
+
+            if l_pin_to_taskbar is True:
+                self.view_menu.addAction(QIcon('./resources/image/check.png'), ' Attach to taskbar (Left)', l_attatch_to_taskbar)
+            else:
+                self.view_menu.addAction(' Attach to taskbar (Left)', l_attatch_to_taskbar)
+
+            if r_pin_to_taskbar is True:
+                self.view_menu.addAction(QIcon('./resources/image/check.png'), ' Attach to taskbar (Right)', r_attatch_to_taskbar)
+            else:
+                self.view_menu.addAction(' Attach to taskbar (Right)', r_attatch_to_taskbar)
+
+            if c_pin_to_taskbar is True:
+                self.view_menu.addAction(QIcon('./resources/image/check.png'), ' Attach to taskbar (Centre)', c_attatch_to_taskbar)
+            else:
+                self.view_menu.addAction(' Attach to taskbar (Centre)', c_attatch_to_taskbar)
+
+
+            self.view_menu.addSeparator()
             if app_display_default_bool is True:
                 self.view_menu.addAction(QIcon('./resources/image/check.png'), ' Always display default', app_display_default)
             else:
@@ -1140,6 +1112,7 @@ class App(QMainWindow):
             global auto_generate_lbl, auto_generate_btn, auto_generate_btn_double, auto_generate_qle
             global btnx_var, lblx_var, btnx_double_var, qlex_var, qlex_double_var, tbx_var, tbx_message, tbx_timer, btnx_double_timer
             global reserve_btnx, btnx_double_timer_sub, btnx_timer, btnx_timer_sub
+            global l_pin_to_taskbar, r_pin_to_taskbar, c_pin_to_taskbar
             # debug_messages.append(str('[' + str(datetime.datetime.now()) + '] plugged in: generateButtonFunction'))
 
             list_import_0 = ['os', 'PyQt5', 'PyQt5.QtCore', 'datetime', 'sol_style']
@@ -1675,7 +1648,12 @@ class App(QMainWindow):
             # attatch to taskbar
             if pin_to_taskbar is True:
                 app_height_pos = int(QDesktopWidget().availableGeometry().height()) - int(app_height_static)
-                self.setGeometry(0, app_height_pos, app_width_static, app_height_static)
+                if l_pin_to_taskbar is True:
+                    event_filter_self[0].setGeometry(0, app_height_pos, app_width_static, app_height_static)
+                elif r_pin_to_taskbar is True:
+                    event_filter_self[0].setGeometry(QDesktopWidget().availableGeometry().width() - app_width_static, app_height_pos, app_width_static, app_height_static)
+                elif c_pin_to_taskbar is True:
+                    event_filter_self[0].setGeometry(int(QDesktopWidget().availableGeometry().width() / 2) - int(app_width_static / 2), app_height_pos, app_width_static, app_height_static)
 
             # position application center screen
             elif pin_to_taskbar is False:
@@ -1983,7 +1961,10 @@ class App(QMainWindow):
             global debug_enable_bool, debug_messages
             # if debug_enable_bool is True:
             #     debug_messages.append(str('[' + str(datetime.datetime.now()) + '] [App.btn_title_logo_function_0] clicked logo button'))
-        
+
+        print('y:', self.geometry().height())
+        self.base_label_0.resize(632 - (main_border_height * 2), self.geometry().height() - (main_border_height + (btn_size_titlebar * 3) + 8))
+
         # plug in title bar quit, minimize and logo button
         self.btn_quit.clicked.connect(QCoreApplication.instance().quit)
         self.btn_minimize.clicked.connect(self.showMinimized)
@@ -2037,43 +2018,11 @@ class App(QMainWindow):
             btnx_double_var[_].setText('--- --- ---')
             btnx_double_var[_].show()
 
-        nasa_l = [36, 38, 40, 42, 44, 46]
-        for _ in nasa_l:
-            btnx_double_var[_].show()
-            btnx_double_var[_].resize((btnx_size * 2) + btnx_sp_size, int((btnx_size / 2) - btnx_sp_size))
-            btnx_double_var[_].setStyleSheet("""QPushButton{background-color: rgb(0, 0, 0);
-                color: rgb(255, 255, 255);
-                border-top:0px solid rgb(0, 0, 0);
-                border-bottom:0px solid rgb(0, 0, 0);
-                border-right:0px solid rgb(0, 0, 0);
-                border-left:0px solid rgb(0, 0, 0);}
-                QPushButton::hover {
-                    background-color : rgb(0,0,155);
-                }
-                QPushButton::pressed {
-                    color : rgb(255, 255, 255);
-                    background-color : rgb(26,26,26);
-                    border-top:8px solid rgb(14, 14, 14);
-                    border-bottom:8px solid rgb(14, 14, 14);
-                    border-right:8px solid rgb(14, 14, 14);
-                    border-left:8px solid rgb(14, 14, 14);}
-                }""")
-            btnx_double_var[_].setText('--- --- ---')
-
-        btnx_double_var[36].move(btnx_double_var[36].geometry().x(), int(btnx_double_var[36].geometry().y()) + int(btnx_size) + btnx_sp_size)
-        btnx_double_var[38].move(btnx_double_var[38].geometry().x(), int(btnx_double_var[38].geometry().y()) + int(btnx_size) + btnx_sp_size)
-        btnx_double_var[40].move(btnx_double_var[40].geometry().x(), int(btnx_double_var[40].geometry().y()) + int(btnx_size) + btnx_sp_size)
-        btnx_double_var[42].move(btnx_double_var[42].geometry().x(), int(btnx_double_var[42].geometry().y()) + int(btnx_size / 2))
-        btnx_double_var[44].move(btnx_double_var[44].geometry().x(), int(btnx_double_var[44].geometry().y()) + int(btnx_size / 2))
-        btnx_double_var[46].move(btnx_double_var[46].geometry().x(), int(btnx_double_var[46].geometry().y()) + int(btnx_size / 2))
-
-        tbx_var[0].resize((btnx_size * 6) + (btnx_sp_size * 6) - main_border_height * 2, int(btnx_size / 2) - btnx_sp_size + 20)
+        tbx_var[0].resize((btnx_size * 6) + (btnx_sp_size * 6) - main_border_height * 2, int(btnx_size / 2) - btnx_sp_size + 26)
         tbx_var[0].show()
 
-        tbx_var[30].resize((btnx_size * 6) + (btnx_sp_size * 6) - main_border_height * 2, int(btnx_size + btnx_size / 2) + 26)
+        tbx_var[30].resize((btnx_size * 6) + (btnx_sp_size * 6) - main_border_height * 2, int(btnx_size + btnx_size / 2) + 54)
         tbx_var[30].show()
-
-        self.titel_label_news.show()
 
         # install an event filter to self
         self.installEventFilter(self.filter)
@@ -2092,7 +2041,6 @@ class App(QMainWindow):
         thread_nuclear_strike_imminent = NUCLEAR_STRIKE_IMMINENT(self.btn_NUKE_ALARM, self.btn_MUTE_NUKE_ALARM)
 
         self.thread_0.start()
-        self.thread_1.start()
 
         # if debug_enable_bool is True:
         #     debug_messages.append(str('[' + str(datetime.datetime.now()) + '] [App.initUI] displaying application'))
@@ -2117,9 +2065,6 @@ class App(QMainWindow):
         if module_defcon.debug_output:
             tbx_var[0].append(module_defcon.debug_output[0])
             module_defcon.debug_output.remove(module_defcon.debug_output[0])
-        if module_nasa.debug_output:
-            tbx_var[0].append(module_nasa.debug_output[0])
-            module_nasa.debug_output.remove(module_nasa.debug_output[0])
 
     def center(self):
         qr = self.frameGeometry()
@@ -2446,80 +2391,6 @@ class Class0(QThread):
 
     def stop_thread(self):
         print('-- plugged in: Class0(stop_thread)')
-        self.terminate()
-
-
-class Class1(QThread):
-    def __init__(self):
-        QThread.__init__(self)
-
-    def set_nasa_climate(self):
-        global btnx_double_var
-        nasa_climate_values = []
-
-        if not os.path.exists('./data'):
-            os.mkdir('./data')
-
-        if os.path.exists('./data/nasa_climate.txt'):
-            with open('./data/nasa_climate.txt', 'r') as fo:
-                for line in fo:
-                    line = line.strip()
-                    nasa_climate_values.append(line)
-        if nasa_climate_values:
-            last_nasa_climate_value = nasa_climate_values[-1].split('   ')
-
-        if len(nasa_climate_values) >= 2:
-            next_1_last_nasa_climate_value = nasa_climate_values[-2].split('   ')
-            btnx_double_var[36].setText(last_nasa_climate_value[1] + '\n' + next_1_last_nasa_climate_value[1])
-            btnx_double_var[38].setText(last_nasa_climate_value[2] + '\n' + next_1_last_nasa_climate_value[2])
-            btnx_double_var[40].setText(last_nasa_climate_value[3] + '\n' + next_1_last_nasa_climate_value[3])
-            btnx_double_var[42].setText(last_nasa_climate_value[4].replace(' per year', '') + '\n' + next_1_last_nasa_climate_value[4].replace(' per year', ''))
-            btnx_double_var[44].setText(last_nasa_climate_value[5] + '\n' + next_1_last_nasa_climate_value[5])
-            btnx_double_var[46].setText(last_nasa_climate_value[6].replace('zettajoules', ' zj') + '\n' + next_1_last_nasa_climate_value[6].replace('zettajoules', ' zj'))
-
-        elif len(nasa_climate_values) == 1:
-            btnx_double_var[36].setText(last_nasa_climate_value[1])
-            btnx_double_var[38].setText(last_nasa_climate_value[2])
-            btnx_double_var[40].setText(last_nasa_climate_value[3])
-            btnx_double_var[42].setText(last_nasa_climate_value[4].replace(' per year', ''))
-            btnx_double_var[44].setText(last_nasa_climate_value[5])
-            btnx_double_var[46].setText(last_nasa_climate_value[6].replace('zettajoules', ' zj'))
-
-    def run(self):
-        global btnx_double_var, lblx_var, nasa_update_time
-        time.sleep(3)
-
-        module_nasa.output = True
-
-        while True:
-            t0 = time.time()
-            t1 = t0
-            next_nasa_update_dttime = datetime.datetime.fromtimestamp(t0 + nasa_update_time)
-            next_nasa_update_time = t0 + nasa_update_time
-            # set next_nasa_update_time object
-
-            try:
-                """ [1] SET NASA CLIMATE """
-                self.set_nasa_climate()
-
-                """ [2] GET NASA CLIMATE """
-                module_nasa.nasa_climate()
-                self.set_nasa_climate()
-
-            except Exception as e:
-                technical_data = str('[' + str(datetime.datetime.now()) + '] [SYSTEM]  [NASA] ' + str(e))
-                debug_messages.append(technical_data)
-                time.sleep(5)
-                self.run()
-
-            debug_messages.append(str('[' + str(datetime.datetime.now()) + '] [SYSTEM] [NASA] next update after: ' + str(next_nasa_update_dttime)))
-            while not t1 > next_nasa_update_time:
-                next_nasa_update_time = t0 + nasa_update_time
-                t1 = time.time()
-                time.sleep(1)
-
-    def stop_thread(self):
-        print('-- plugged in: Class1(stop_thread)')
         self.terminate()
 
 
