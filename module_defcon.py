@@ -4,26 +4,15 @@ Written by Benjamin Jack Cullen aka Holographic_Sol
 import os
 import codecs
 import datetime
+import time
+
 import requests
 from bs4 import BeautifulSoup
+import re
 
 title = []
 defcon_level = []
-
 debug_output = []
-
-soup_defcon_news_current_level = []
-soup_defcon_news_strat_com = []
-soup_defcon_news_indo_pac_com = []
-soup_defcon_news_euro_com = []
-soup_defcon_news_africa_com = []
-soup_defcon_news_cent_com = []
-soup_defcon_news_cyber_com = []
-soup_defcon_news_northern_com = []
-soup_defcon_news_southern_com = []
-soup_defcon_news_space_com = []
-soup_defcon_news_spacial_op_com = []
-soup_defcon_news_transportation_com = []
 
 dc_img = ['https://www.defconlevel.com/levels/defcon-1.php',
           'https://www.defconlevel.com/levels/defcon-2.php',
@@ -37,8 +26,75 @@ levels = ['DEFCON 1: Cocked Pistol',
           'DEFCON 4: Double Take',
           'DEFCON 5: Fade Out']
 
+command_str = ['current-level',
+               'africa-command',
+               'central-command',
+               'cyber-command',
+               'european-command',
+               'indo-pacific-command',
+               'northern-command',
+               'southern-command',
+               'space-command',
+               'special-operations-command',
+               'strategic-command',
+               'transportation-command']
+
+f_command_str = ['[CURRENT LEVEL NEWS]',
+                 '[AFRICA COMMAND]',
+                 '[CENTRAL COMMAND]',
+                 '[CYBER COMMAND]',
+                 '[EUROPEAN COMMAND]',
+                 '[INDO-PACIFIC COMMAND]',
+                 '[NORTHERN COMMAND]',
+                 '[SOUTHERN COMMAND]',
+                 '[SPACE COMMAND]',
+                 '[SPECIAL OPERATIONS COMMAND]',
+                 '[STRATEGIC COMMAND]',
+                 '[TRANSPORTATION COMMAND]']
+
+news_urls = ['https://www.defconlevel.com/current-level.php',
+             'https://www.defconlevel.com/africa-command-news.php',
+             'https://www.defconlevel.com/central-command-news.php',
+             'https://www.defconlevel.com/cyber-command-news.php',
+             'https://www.defconlevel.com/european-command-news.php',
+             'https://www.defconlevel.com/indo-pacific-command-news.php',
+             'https://www.defconlevel.com/northern-command-news.php',
+             'https://www.defconlevel.com/southern-command-news.php',
+             'https://www.defconlevel.com/space-command-news.php',
+             'https://www.defconlevel.com/special-operations-command-news.php',
+             'https://www.defconlevel.com/strategic-command-news.php',
+             'https://www.defconlevel.com/transportation-command-news.php']
+
+soup_defcon_news_current_level = []
+soup_defcon_news_africa_com = []
+soup_defcon_news_cent_com = []
+soup_defcon_news_cyber_com = []
+soup_defcon_news_euro_com = []
+soup_defcon_news_indo_pac_com = []
+soup_defcon_news_northern_com = []
+soup_defcon_news_southern_com = []
+soup_defcon_news_space_com = []
+soup_defcon_news_spacial_op_com = []
+soup_defcon_news_strat_com = []
+soup_defcon_news_transportation_com = []
+
+soup_defcon = [soup_defcon_news_current_level,
+               soup_defcon_news_africa_com,
+               soup_defcon_news_cent_com,
+               soup_defcon_news_cyber_com,
+               soup_defcon_news_euro_com,
+               soup_defcon_news_indo_pac_com,
+               soup_defcon_news_northern_com,
+               soup_defcon_news_southern_com,
+               soup_defcon_news_space_com,
+               soup_defcon_news_spacial_op_com,
+               soup_defcon_news_strat_com,
+               soup_defcon_news_transportation_com]
+
 output = True
 debug = False
+
+replchars = re.compile(r'[\n\r]')
 
 
 def get_defcon_levels(save_defcon_levels=False):
@@ -209,90 +265,45 @@ def write_defcon_levels():
         debug_output.append('[' + str(datetime.datetime.now()) + '] [DEFCON] Data checks: failed')
 
 
+def replchars_to_hex(match):
+    return r'\x{0:02x}'.format(ord(match.group()))
+
+
 def defcon_news(save_news=False):
-    global soup_defcon_news_current_level
-    global soup_defcon_news_strat_com
-    global soup_defcon_news_indo_pac_com
-    global soup_defcon_news_euro_com
-    global soup_defcon_news_africa_com
-    global soup_defcon_news_cent_com
-    global soup_defcon_news_cyber_com
-    global soup_defcon_news_northern_com
-    global soup_defcon_news_southern_com
-    global soup_defcon_news_space_com
-    global soup_defcon_news_spacial_op_com
-    global soup_defcon_news_transportation_com
+    global soup_defcon
+
+    changed_data = []
+    time.sleep(1)
 
     try:
 
-        # get defcon current level news
-        out_file = './data/defcon_news_current_news.txt'
-        _text = []
-        url = ('https://www.defconlevel.com/current-level.php')
-        debug_output.append('[' + str(datetime.datetime.now()) + '] [SCANNING] [DEFCON] ' + str(url))
-        rHead = requests.get(url)
-        data = rHead.text
-        soup = BeautifulSoup(data, "html.parser")
-        for row in soup.find_all('p'):
-            text = row.get_text()
-            text = str(text).strip()
-            if text != 'Live Defcon Level Warning System News Flash':
-                if text != 'Privacy Is Important! Defcon Level Warning System currently highly recommends Express VPN to browse privately & securely. Use This Link to get 30 free days.':
-                    if text != 'Want To Support What We Do? Keeping alerts, intel and news as informative and timely as possible takes a lot of research, time, effort and financial investment for required tools and services. There are many ways you can Contribute or Subscribe to Defcon Level Warning System today, for live email updates, early access for and exclusive news and alerts while supporting our work in the process. No contribution is too small. Thank you!':
-                        _text.append(text)
-        # if _text != soup_defcon_news_current_level:
-        # debug_output.append('[' + str(datetime.datetime.now()) + '] [DEFCON] [CURRENT LEVEL NEWS] data: changed.')
-        # soup_defcon_news_current_level = _text
-        if save_news is True:
-            open(out_file + '.tmp', 'w').close()
-            with codecs.open(out_file + '.tmp', 'a', encoding="UTF-8") as fo:
-                fo.write('[CURRENT LEVEL NEWS]' + '\n')
-                fo.writelines('[LAST UPDATED] ' + str(datetime.datetime.now()) + '\n\n')
-                for _texts in _text:
-                    fo.writelines(_texts+'\n\n')
-            fo.close()
-            try:
-                if not os.path.exists(out_file):
-                    open(out_file, 'w').close()
-                os.replace(out_file + '.tmp', out_file)
-            except Exception as e:
-                debug_output.append(
-                    '[' + str(datetime.datetime.now()) + '] [DEFCON] [CURRENT LEVEL NEWS] ' + str(e))
-        # else:
-        #     debug_output.append('[' + str(datetime.datetime.now()) + '] [DEFCON] [CURRENT LEVEL NEWS] data: unchanged.')
-
-        # compile list of news urls
-        url = 'https://www.defconlevel.com/news-alerts.php'
-        debug_output.append('[' + str(datetime.datetime.now()) + '] [SCANNING] [DEFCON] ' + str(url))
-        url_item = []
-        rHead = requests.get(url)
-        data = rHead.text
-        soup = BeautifulSoup(data, "html.parser")
-        for link in soup.find_all('a'):
-            href = link.get('href')
-            if href is not None:
-                if href.endswith('command-news.php'):
-                    if 'archive' not in href:
-                        if href not in url_item:
-                            url_item.append(href)
-
         # step over each news url
-        for _ in url_item:
+        i_command = 0
+        for _ in news_urls:
+
+            # create non magical url
             url = _
+
+            # create file header
+            header = f_command_str[i_command]
+
+            # create file name
+            out_file = './data/defcon_news_' + command_str[i_command] + '.txt'
+
+            # display url
             debug_output.append('[' + str(datetime.datetime.now()) + '] [SCANNING] [DEFCON] ' + str(url))
 
-            # create filename from url string
-            article_title = _.replace('https://www.defconlevel.com/', '').replace('.php', '')
-            out_file = './data/defcon_news_' + article_title.replace('/', '') + '.txt'
-
-            # parse news url for news data
+            # parse url
             rHead = requests.get(url)
             data = rHead.text
             soup = BeautifulSoup(data, "html.parser")
+
+            # parse soup
             to_file = []
             for row in soup.find_all('p'):
-                text = row.get_text()
-                text = text.strip()
+                text = row.get_text().strip()
+
+                # remove privacy statements
                 if not 'Privacy Is Important! Defcon Level Warning System currently highly recommends Express VPN to browse privately' in text:
                     if not 'Want To Support What We Do? Keeping alerts, intel and news as informative and timely as possible takes a lot of research, time, effort and financial investment for required tools and services. There are many ways you can Contribute or Subscribe to Defcon Level Warning System today, for live email updates, early access for and exclusive news and alerts while supporting our work in the process. No contribution is too small. Thank you!' in text:
                         if not text == 'Current News Flashes':
@@ -300,250 +311,40 @@ def defcon_news(save_news=False):
                         elif text == 'Current News Flashes':
                             to_file.append('\n')
 
-            # soup = to_file
+            # if allow_save is True:
+            if save_news is True:
+                print('saving new data:', command_str[i_command])
 
-            if 'strategic-command' in _:
+                # create temporary file
+                open(out_file+'.tmp', 'w').close()
+                with codecs.open(out_file+'.tmp', 'a', encoding="UTF-8") as fo:
+                    fo.writelines(header + '\n')
+                    fo.writelines('[LAST UPDATED] ' + str(datetime.datetime.now()) + '\n')
+                    for to_files in to_file:
+                        fo.writelines(to_files + '\n')
+                fo.close()
 
-                # if to_file != soup_defcon_news_strat_com:
-                #     debug_output.append('[' + str(datetime.datetime.now()) + '] [DEFCON] [STRATEGIC COMMAND] data: changed.')
-                #     soup_defcon_news_strat_com = to_file
+                # save new data file
+                try:
+                    if not os.path.exists(out_file):
+                        open(out_file, 'w').close()
+                    os.replace(out_file+'.tmp', out_file)
+                except Exception as e:
+                    debug_output.append('[' + str(datetime.datetime.now()) + '] [DEFCON] ' + header + ' ' + str(e))
 
-                if save_news is True:
-                    open(out_file+'.tmp', 'w').close()
-                    with codecs.open(out_file+'.tmp', 'a', encoding="UTF-8") as fo:
-                        fo.writelines('[STRATEGIC COMMAND]\n')
-                        fo.writelines('[LAST UPDATED] ' + str(datetime.datetime.now()) + '\n')
-                        for to_files in to_file:
-                            fo.writelines(to_files + '\n')
-                    fo.close()
-                    try:
-                        if not os.path.exists(out_file):
-                            open(out_file, 'w').close()
-                        os.replace(out_file+'.tmp', out_file)
-                    except Exception as e:
-                        debug_output.append('[' + str(datetime.datetime.now()) + '] [DEFCON] [STRATEGIC COMMAND] ' + str(e))
-                # else:
-                #     debug_output.append('[' + str(datetime.datetime.now()) + '] [DEFCON] [STRATEGIC COMMAND] data: unchanged.')
+            i_command += 1
 
-            elif 'indo-pacific-command' in _:
-                # if to_file != soup_defcon_news_indo_pac_com:
-                #     debug_output.append('[' + str(datetime.datetime.now()) + '] [DEFCON] [INDO-PACIFIC COMMAND] data: changed.')
-                #     soup_defcon_news_indo_pac_com = to_file
-
-                if save_news is True:
-                    open(out_file+'.tmp', 'w').close()
-                    with codecs.open(out_file+'.tmp', 'a', encoding="UTF-8") as fo:
-                        fo.writelines('[INDO-PACIFIC COMMAND]\n')
-                        fo.writelines('[LAST UPDATED] ' + str(datetime.datetime.now()) + '\n')
-                        for to_files in to_file:
-                            fo.writelines(to_files + '\n')
-                    fo.close()
-                    try:
-                        if not os.path.exists(out_file):
-                            open(out_file, 'w').close()
-                        os.replace(out_file + '.tmp', out_file)
-                    except Exception as e:
-                        debug_output.append('[' + str(datetime.datetime.now()) + '] [DEFCON] [INDO-PACIFIC COMMAND] ' + str(e))
-                # else:
-                #     debug_output.append('[' + str(datetime.datetime.now()) + '] [DEFCON] [INDO-PACIFIC COMMAND] data: unchanged.')
-
-            elif 'european-command' in _:
-                # if to_file != soup_defcon_news_euro_com:
-                #     debug_output.append('[' + str(datetime.datetime.now()) + '] [DEFCON] [EUROPEAN COMMAND] data: changed.')
-                #     soup_defcon_news_euro_com = to_file
-
-                if save_news is True:
-                    open(out_file + '.tmp', 'w').close()
-                    with codecs.open(out_file + '.tmp', 'a', encoding="UTF-8") as fo:
-                        fo.writelines('[EUROPEAN COMMAND]\n')
-                        fo.writelines('[LAST UPDATED] ' + str(datetime.datetime.now()) + '\n')
-                        for to_files in to_file:
-                            fo.writelines(to_files + '\n')
-                    fo.close()
-                    try:
-                        if not os.path.exists(out_file):
-                            open(out_file, 'w').close()
-                        os.replace(out_file + '.tmp', out_file)
-                    except Exception as e:
-                        debug_output.append('[' + str(datetime.datetime.now()) + '] [DEFCON] [EUROPEAN COMMAND] ' + str(e))
-                # else:
-                #     debug_output.append('[' + str(datetime.datetime.now()) + '] [DEFCON] [EUROPEAN COMMAND] data: unchanged.')
-
-            elif 'africa-command' in _:
-                # if to_file != soup_defcon_news_africa_com:
-                #     debug_output.append('[' + str(datetime.datetime.now()) + '] [DEFCON] [AFRICA COMMAND] data: changed.')
-                #     soup_defcon_news_africa_com = to_file
-
-                if save_news is True:
-                    open(out_file + '.tmp', 'w').close()
-                    with codecs.open(out_file + '.tmp', 'a', encoding="UTF-8") as fo:
-                        fo.writelines('[AFRICA COMMAND]\n')
-                        fo.writelines('[LAST UPDATED] ' + str(datetime.datetime.now()) + '\n')
-                        for to_files in to_file:
-                            fo.writelines(to_files + '\n')
-                    fo.close()
-                    try:
-                        if not os.path.exists(out_file):
-                            open(out_file, 'w').close()
-                        os.replace(out_file + '.tmp', out_file)
-                    except Exception as e:
-                        debug_output.append('[' + str(datetime.datetime.now()) + '] [DEFCON] [AFRICA COMMAND] ' + str(e))
-                # else:
-                #     debug_output.append('[' + str(datetime.datetime.now()) + '] [DEFCON] [AFRICA COMMAND] data: unchanged.')
-
-            elif 'central-command' in _:
-                # if to_file != soup_defcon_news_cent_com:
-                #     debug_output.append('[' + str(datetime.datetime.now()) + '] [DEFCON] [CENTRAL COMMAND] data: changed.')
-                #     soup_defcon_news_cent_com = to_file
-
-                if save_news is True:
-                    open(out_file + '.tmp', 'w').close()
-                    with codecs.open(out_file + '.tmp', 'a', encoding="UTF-8") as fo:
-                        fo.writelines('[CENTRAL COMMAND]\n')
-                        fo.writelines('[LAST UPDATED] ' + str(datetime.datetime.now()) + '\n')
-                        for to_files in to_file:
-                            fo.writelines(to_files + '\n')
-                    fo.close()
-                    try:
-                        if not os.path.exists(out_file):
-                            open(out_file, 'w').close()
-                        os.replace(out_file + '.tmp', out_file)
-                    except Exception as e:
-                        debug_output.append('[' + str(datetime.datetime.now()) + '] [DEFCON] [CENTRAL COMMAND] ' + str(e))
-                # else:
-                #     debug_output.append('[' + str(datetime.datetime.now()) + '] [DEFCON] [CENTRAL COMMAND] data: unchanged.')
-
-            elif 'cyber-command' in _:
-                # if to_file != soup_defcon_news_cyber_com:
-                #     debug_output.append('[' + str(datetime.datetime.now()) + '] [DEFCON] [CYBER COMMAND] data: changed.')
-                #     soup_defcon_news_cyber_com = to_file
-
-                if save_news is True:
-                    open(out_file + '.tmp', 'w').close()
-                    with codecs.open(out_file + '.tmp', 'a', encoding="UTF-8") as fo:
-                        fo.writelines('[CYBER COMMAND]\n')
-                        fo.writelines('[LAST UPDATED] ' + str(datetime.datetime.now()) + '\n')
-                        for to_files in to_file:
-                            fo.writelines(to_files + '\n')
-                    fo.close()
-                    try:
-                        if not os.path.exists(out_file):
-                            open(out_file, 'w').close()
-                        os.replace(out_file + '.tmp', out_file)
-                    except Exception as e:
-                        debug_output.append('[' + str(datetime.datetime.now()) + '] [DEFCON] [CYBER COMMAND] ' + str(e))
-                # else:
-                #     debug_output.append('[' + str(datetime.datetime.now()) + '] [DEFCON] [CYBER COMMAND] data: unchanged.')
-
-            elif 'northern-command' in _:
-                # if to_file != soup_defcon_news_northern_com:
-                #     debug_output.append('[' + str(datetime.datetime.now()) + '] [DEFCON] [NORTHERN COMMAND] data: changed.')
-                #     soup_defcon_news_northern_com = to_file
-
-                if save_news is True:
-                    open(out_file + '.tmp', 'w').close()
-                    with codecs.open(out_file + '.tmp', 'a', encoding="UTF-8") as fo:
-                        fo.writelines('[NORTHERN COMMAND]\n')
-                        fo.writelines('[LAST UPDATED] ' + str(datetime.datetime.now()) + '\n')
-                        for to_files in to_file:
-                            fo.writelines(to_files + '\n')
-                    fo.close()
-                    try:
-                        if not os.path.exists(out_file):
-                            open(out_file, 'w').close()
-                        os.replace(out_file + '.tmp', out_file)
-                    except Exception as e:
-                        debug_output.append('[' + str(datetime.datetime.now()) + '] [DEFCON] [NORTHERN COMMAND] ' + str(e))
-                # else:
-                #     debug_output.append('[' + str(datetime.datetime.now()) + '] [DEFCON] [NORTHERN COMMAND] data: unchanged.')
-
-            elif 'southern-command' in _:
-                # if to_file != soup_defcon_news_southern_com:
-                #     debug_output.append('[' + str(datetime.datetime.now()) + '] [DEFCON] [SOUTHERN COMMAND] data: changed.')
-                #     soup_defcon_news_southern_com = to_file
-
-                if save_news is True:
-                    open(out_file + '.tmp', 'w').close()
-                    with codecs.open(out_file + '.tmp', 'a', encoding="UTF-8") as fo:
-                        fo.writelines('[SOUTHERN COMMAND]\n')
-                        fo.writelines('[LAST UPDATED] ' + str(datetime.datetime.now()) + '\n')
-                        for to_files in to_file:
-                            fo.writelines(to_files + '\n')
-                    fo.close()
-                    try:
-                        if not os.path.exists(out_file):
-                            open(out_file, 'w').close()
-                        os.replace(out_file + '.tmp', out_file)
-                    except Exception as e:
-                        debug_output.append('[' + str(datetime.datetime.now()) + '] [DEFCON] [SOUTHERN COMMAND] ' + str(e))
-                # else:
-                #     debug_output.append('[' + str(datetime.datetime.now()) + '] [DEFCON] [SOUTHERN COMMAND] data: unchanged.')
-
-            elif 'space-command' in _:
-                # if to_file != soup_defcon_news_space_com:
-                #     debug_output.append('[' + str(datetime.datetime.now()) + '] [DEFCON] [SPACE COMMAND] data: changed.')
-                #     soup_defcon_news_space_com = to_file
-
-                if save_news is True:
-                    open(out_file + '.tmp', 'w').close()
-                    with codecs.open(out_file + '.tmp', 'a', encoding="UTF-8") as fo:
-                        fo.writelines('[SPACE COMMAND]\n')
-                        fo.writelines('[LAST UPDATED] ' + str(datetime.datetime.now()) + '\n')
-                        for to_files in to_file:
-                            fo.writelines(to_files + '\n')
-                    fo.close()
-                    try:
-                        if not os.path.exists(out_file):
-                            open(out_file, 'w').close()
-                        os.replace(out_file + '.tmp', out_file)
-                    except Exception as e:
-                        debug_output.append('[' + str(datetime.datetime.now()) + '] [DEFCON] [SPACE COMMAND] ' + str(e))
-                # else:
-                #     debug_output.append('[' + str(datetime.datetime.now()) + '] [DEFCON] [SPACE COMMAND] data: unchanged.')
-
-            elif 'special-operations-command' in _:
-                # if to_file != soup_defcon_news_spacial_op_com:
-                #     debug_output.append('[' + str(datetime.datetime.now()) + '] [DEFCON] [SPECIAL OPERATIONS COMMAND] data: changed.')
-                #     soup_defcon_news_spacial_op_com = to_file
-
-                if save_news is True:
-                    open(out_file + '.tmp', 'w').close()
-                    with codecs.open(out_file + '.tmp', 'a', encoding="UTF-8") as fo:
-                        fo.writelines('[SPECIAL OPERATIONS COMMAND]\n')
-                        fo.writelines('[LAST UPDATED] ' + str(datetime.datetime.now()) + '\n')
-                        for to_files in to_file:
-                            fo.writelines(to_files + '\n')
-                    fo.close()
-                    try:
-                        if not os.path.exists(out_file):
-                            open(out_file, 'w').close()
-                        os.replace(out_file + '.tmp', out_file)
-                    except Exception as e:
-                        debug_output.append('[' + str(datetime.datetime.now()) + '] [DEFCON] [SPECIAL OPERATIONS COMMAND] ' + str(e))
-                # else:
-                #     debug_output.append('[' + str(datetime.datetime.now()) + '] [DEFCON] [SPECIAL OPERATIONS COMMAND] data: unchanged.')
-
-            elif 'transportation-command' in _:
-                # if to_file != soup_defcon_news_transportation_com:
-                #     debug_output.append('[' + str(datetime.datetime.now()) + '] [DEFCON] [TRANSPORTATION COMMAND] data: changed.')
-                #     soup_defcon_news_transportation_com = to_file
-
-                if save_news is True:
-                    open(out_file + '.tmp', 'w').close()
-                    with codecs.open(out_file + '.tmp', 'a', encoding="UTF-8") as fo:
-                        fo.writelines('[TRANSPORTATION COMMAND]\n')
-                        fo.writelines('[LAST UPDATED] ' + str(datetime.datetime.now()) + '\n')
-                        for to_files in to_file:
-                            fo.writelines(to_files + '\n')
-                    fo.close()
-                    try:
-                        if not os.path.exists(out_file):
-                            open(out_file, 'w').close()
-                        os.replace(out_file + '.tmp', out_file)
-                    except Exception as e:
-                        debug_output.append('[' + str(datetime.datetime.now()) + '] [DEFCON] [TRANSPORTATION COMMAND] ' + str(e))
-                # else:
-                #     debug_output.append('[' + str(datetime.datetime.now()) + '] [DEFCON] [TRANSPORTATION COMMAND] data: unchanged.')
+        if True in changed_data:
+            print('data: data updated')
+            l = []
+            u_command = 0
+            for changed_datas in changed_data:
+                if changed_data[u_command] is True:
+                    l.append(command_str[u_command])
+                u_command += 1
+            print('changes:', l)
+        else:
+            print('data: unchanged')
 
     except Exception as e:
         technical_data = str('[' + str(datetime.datetime.now()) + '] [DEFCON] ' + str(e))
