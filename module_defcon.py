@@ -334,18 +334,6 @@ def defcon_news(save_news=False):
 
             i_command += 1
 
-        if True in changed_data:
-            print('data: data updated')
-            l = []
-            u_command = 0
-            for changed_datas in changed_data:
-                if changed_data[u_command] is True:
-                    l.append(command_str[u_command])
-                u_command += 1
-            print('changes:', l)
-        else:
-            print('data: unchanged')
-
     except Exception as e:
         technical_data = str('[' + str(datetime.datetime.now()) + '] [DEFCON] ' + str(e))
         debug_output.append(technical_data)
