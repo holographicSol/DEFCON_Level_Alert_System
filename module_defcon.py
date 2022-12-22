@@ -311,26 +311,37 @@ def defcon_news(save_news=False):
                         elif text == 'Current News Flashes':
                             to_file.append('\n')
 
-            # if allow_save is True:
-            if save_news is True:
-                print('saving new data:', command_str[i_command])
+            # check for changes
+            allow_save = False
+            to_file_str = str(to_file)
+            if to_file_str != soup_defcon[i_command]:
+                print('data changed:', command_str[i_command])
+                soup_defcon[i_command] = to_file_str
+                allow_save = True
+            else:
+                print('data unchanged:', command_str[i_command])
 
-                # create temporary file
-                open(out_file+'.tmp', 'w').close()
-                with codecs.open(out_file+'.tmp', 'a', encoding="UTF-8") as fo:
-                    fo.writelines(header + '\n')
-                    fo.writelines('[LAST UPDATED] ' + str(datetime.datetime.now()) + '\n')
-                    for to_files in to_file:
-                        fo.writelines(to_files + '\n')
-                fo.close()
+            # write changes
+            if allow_save is True:
+                if save_news is True:
+                    print('saving new data:', command_str[i_command])
 
-                # save new data file
-                try:
-                    if not os.path.exists(out_file):
-                        open(out_file, 'w').close()
-                    os.replace(out_file+'.tmp', out_file)
-                except Exception as e:
-                    debug_output.append('[' + str(datetime.datetime.now()) + '] [DEFCON] ' + header + ' ' + str(e))
+                    # create temporary file
+                    open(out_file+'.tmp', 'w').close()
+                    with codecs.open(out_file+'.tmp', 'a', encoding="UTF-8") as fo:
+                        fo.writelines(header + '\n')
+                        fo.writelines('[LAST UPDATED] ' + str(datetime.datetime.now()) + '\n')
+                        for to_files in to_file:
+                            fo.writelines(to_files + '\n')
+                    fo.close()
+
+                    # save new data file
+                    try:
+                        if not os.path.exists(out_file):
+                            open(out_file, 'w').close()
+                        os.replace(out_file+'.tmp', out_file)
+                    except Exception as e:
+                        debug_output.append('[' + str(datetime.datetime.now()) + '] [DEFCON] ' + header + ' ' + str(e))
 
             i_command += 1
 
