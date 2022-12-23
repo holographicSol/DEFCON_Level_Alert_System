@@ -91,6 +91,32 @@ soup_defcon = [soup_defcon_news_current_level,
                soup_defcon_news_strat_com,
                soup_defcon_news_transportation_com]
 
+bool_current_level = False,
+bool_africa_com = False,
+bool_cent_com = False,
+bool_cyber_com = False,
+bool_euro_com = False,
+bool_indo_pac_com = False,
+bool_northern_com = False,
+bool_southern_com = False,
+bool_space_com = False,
+bool_special_op_com = False,
+bool_strat_com = False,
+bool_transportation_com = False
+
+bool_defcon = [bool_current_level,
+               bool_africa_com,
+               bool_cent_com,
+               bool_cyber_com,
+               bool_euro_com,
+               bool_indo_pac_com,
+               bool_northern_com,
+               bool_southern_com,
+               bool_space_com,
+               bool_special_op_com,
+               bool_strat_com,
+               bool_transportation_com]
+
 output = True
 debug = False
 
@@ -319,14 +345,17 @@ def defcon_news(save_news=False):
                 rpc0 = rpc0.replace('  ', ' ')
                 try:
                     # compare once memory has been populated
-                    if soup_defcon[i_command][i].strip() != rpc0:
-                        # print('rpc0:                     ', rpc0)
-                        # print('soup_defcon[i_command][i]:', soup_defcon[i_command][i])
-                        # print('-----')
+                    if soup_defcon[i_command][i].strip().replace('."\\x0a', '').replace('"\\x0a', '') != rpc0.replace('."\\x0a', '').replace('"\\x0a', ''):
+                        print('rpc0:                     ', rpc0)
+                        print('soup_defcon[i_command][i]:', soup_defcon[i_command][i])
+                        print('-----')
                         data_changed = True
                         soup_defcon[i_command][i] = rpc0
+                        bool_defcon[i_command] = True
                 except:
                     data_changed = True
+                    # test news alert on startup
+                    # bool_defcon[i_command] = True
                     soup_defcon[i_command].append(rpc0)
                 i += 1
 

@@ -148,23 +148,28 @@ QMenu::item::selected {
 
 QPushButton{background-color: rgb(0, 0, 0);
 color: rgb(255, 255, 255);
-border-top:20px solid rgb(0, 0, 0);
-border-bottom:0px solid rgb(0, 0, 0);
-border-right:0px solid rgb(0, 0, 0);
-border-left:0px solid rgb(0, 0, 0);
+border-top:26px solid rgb(0, 0, 0);
+border-bottom:2px solid rgb(0, 0, 0);
+border-right:2px solid rgb(0, 0, 0);
+border-left:2px solid rgb(0, 0, 0);
 outline: 0;}
 
 QPushButton::hover {
-    background-color : rgb(0,0,155);
+    color : rgb(255, 255, 255);
+    background-color : rgb(0, 0, 25);
+    border-top:26px solid rgb(0, 0, 0);
+    border-bottom:2px solid rgb(0, 0, 0);
+    border-right:2px solid rgb(0, 0, 0);
+    border-left:2px solid rgb(0, 0, 0);
 }
 
 QPushButton::pressed {
     color : rgb(255, 255, 255);
-    background-color : rgb(26,26,26);
-    border-top:28px solid rgb(14, 14, 14);
-    border-bottom:8px solid rgb(14, 14, 14);
-    border-right:8px solid rgb(14, 14, 14);
-    border-left:8px solid rgb(14, 14, 14);}
+    background-color : rgb(0, 0, 25);
+    border-top:28px solid rgb(0, 0, 0);
+    border-bottom:8px solid rgb(0, 0, 0);
+    border-right:8px solid rgb(0, 0, 0);
+    border-left:8px solid rgb(0, 0, 0);
 }
 
 QLabel{background-color: rgb(0, 0, 0);

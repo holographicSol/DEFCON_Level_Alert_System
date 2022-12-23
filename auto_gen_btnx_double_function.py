@@ -14,6 +14,7 @@ import auto_gen_btnx_double_bool
 import auto_gen_qle_bool
 import auto_gen_qle_double_bool
 import codecs
+import module_defcon
 
 var_btnx = []
 var_btnx_double = []
@@ -198,17 +199,21 @@ def btnx_double_6_0_timer_clicked_function():
 
 def btnx_double_6_function():
     if auto_gen_main_page.main_page == 0:
+        module_defcon.bool_defcon[0] = False
         if auto_gen_btnx_double_bool.btnx_double_6_0_bool is True:
             auto_gen_btnx_double_bool.btnx_double_6_0_bool = False
             print('[btnx_double_6] [Page ' + str(auto_gen_main_page.main_page) + '] [Bool ' + str(auto_gen_btnx_double_bool.btnx_double_6_0_bool) + ']')
+
             var_tbx[30].setText("")
 
         elif auto_gen_btnx_double_bool.btnx_double_6_0_bool is False:
             auto_gen_btnx_double_bool.btnx_double_6_0_bool = True
             print('[btnx_double_6] [Page ' + str(auto_gen_main_page.main_page) + '] [Bool ' + str(auto_gen_btnx_double_bool.btnx_double_6_0_bool) + ']')
-            if os.path.exists('./defcon_news_current_news.txt'):
+
+            if os.path.exists('./data/defcon_news_current-level.txt'):
+
                 var_tbx[30].setText("")
-                with codecs.open('./defcon_news_current_news.txt', 'r', encoding='utf8') as fo:
+                with codecs.open('./data/defcon_news_current-level.txt', 'r', encoding='utf8') as fo:
                     for line in fo:
                         line = line.strip()
                         var_tbx[30].append(line)
@@ -256,6 +261,7 @@ def btnx_double_8_0_timer_clicked_function():
 
 def btnx_double_8_function():
     if auto_gen_main_page.main_page == 0:
+        module_defcon.bool_defcon[1] = False
         if auto_gen_btnx_double_bool.btnx_double_8_0_bool is True:
             auto_gen_btnx_double_bool.btnx_double_8_0_bool = False
             print('[btnx_double_8] [Page ' + str(auto_gen_main_page.main_page) + '] [Bool ' + str(auto_gen_btnx_double_bool.btnx_double_8_0_bool) + ']')
@@ -264,9 +270,10 @@ def btnx_double_8_function():
         elif auto_gen_btnx_double_bool.btnx_double_8_0_bool is False:
             auto_gen_btnx_double_bool.btnx_double_8_0_bool = True
             print('[btnx_double_8] [Page ' + str(auto_gen_main_page.main_page) + '] [Bool ' + str(auto_gen_btnx_double_bool.btnx_double_8_0_bool) + ']')
-            if os.path.exists('./defcon_news_africa-command-news.txt'):
+
+            if os.path.exists('./data/defcon_news_africa-command.txt'):
                 var_tbx[30].setText("")
-                with codecs.open('./defcon_news_africa-command-news.txt', 'r', encoding='utf8') as fo:
+                with codecs.open('./data/defcon_news_africa-command.txt', 'r', encoding='utf8') as fo:
                     for line in fo:
                         line = line.strip()
                         var_tbx[30].append(line)
@@ -314,6 +321,7 @@ def btnx_double_10_0_timer_clicked_function():
 
 def btnx_double_10_function():
     if auto_gen_main_page.main_page == 0:
+        module_defcon.bool_defcon[2] = False
         if auto_gen_btnx_double_bool.btnx_double_10_0_bool is True:
             auto_gen_btnx_double_bool.btnx_double_10_0_bool = False
             print('[btnx_double_10] [Page ' + str(auto_gen_main_page.main_page) + '] [Bool ' + str(auto_gen_btnx_double_bool.btnx_double_10_0_bool) + ']')
@@ -322,9 +330,10 @@ def btnx_double_10_function():
         elif auto_gen_btnx_double_bool.btnx_double_10_0_bool is False:
             auto_gen_btnx_double_bool.btnx_double_10_0_bool = True
             print('[btnx_double_10] [Page ' + str(auto_gen_main_page.main_page) + '] [Bool ' + str(auto_gen_btnx_double_bool.btnx_double_10_0_bool) + ']')
-            if os.path.exists('./defcon_news_central-command-news.txt'):
+
+            if os.path.exists('./data/defcon_news_central-command.txt'):
                 var_tbx[30].setText("")
-                with codecs.open('./defcon_news_central-command-news.txt', 'r', encoding='utf8') as fo:
+                with codecs.open('./data/defcon_news_central-command.txt', 'r', encoding='utf8') as fo:
                     for line in fo:
                         line = line.strip()
                         var_tbx[30].append(line)
@@ -372,7 +381,7 @@ def btnx_double_12_0_timer_clicked_function():
 
 def btnx_double_12_function():
     if auto_gen_main_page.main_page == 0:
-
+        module_defcon.bool_defcon[3] = False
         if auto_gen_btnx_double_bool.btnx_double_12_bool is True:
             auto_gen_btnx_double_bool.btnx_double_12_bool = False
             print('[btnx_double_12] [Page ' + str(auto_gen_main_page.main_page) + '] [Bool ' + str(auto_gen_btnx_double_bool.btnx_double_12_bool) + ']')
@@ -381,9 +390,10 @@ def btnx_double_12_function():
         elif auto_gen_btnx_double_bool.btnx_double_12_bool is False:
             auto_gen_btnx_double_bool.btnx_double_12_bool = True
             print('[btnx_double_12] [Page ' + str(auto_gen_main_page.main_page) + '] [Bool ' + str(auto_gen_btnx_double_bool.btnx_double_12_bool) + ']')
-            if os.path.exists('./defcon_news_cyber-command-news.txt'):
+
+            if os.path.exists('./data/defcon_news_cyber-command.txt'):
                 var_tbx[30].setText("")
-                with codecs.open('./defcon_news_cyber-command-news.txt', 'r', encoding='utf8') as fo:
+                with codecs.open('./data/defcon_news_cyber-command.txt', 'r', encoding='utf8') as fo:
                     for line in fo:
                         line = line.strip()
                         var_tbx[30].append(line)
@@ -431,6 +441,7 @@ def btnx_double_14_0_timer_clicked_function():
 
 def btnx_double_14_function():
     if auto_gen_main_page.main_page == 0:
+        module_defcon.bool_defcon[4] = False
         if auto_gen_btnx_double_bool.btnx_double_14_0_bool is True:
             auto_gen_btnx_double_bool.btnx_double_14_0_bool = False
             print('[btnx_double_14] [Page ' + str(auto_gen_main_page.main_page) + '] [Bool ' + str(auto_gen_btnx_double_bool.btnx_double_14_0_bool) + ']')
@@ -439,9 +450,10 @@ def btnx_double_14_function():
         elif auto_gen_btnx_double_bool.btnx_double_14_0_bool is False:
             auto_gen_btnx_double_bool.btnx_double_14_0_bool = True
             print('[btnx_double_14] [Page ' + str(auto_gen_main_page.main_page) + '] [Bool ' + str(auto_gen_btnx_double_bool.btnx_double_14_0_bool) + ']')
-            if os.path.exists('./defcon_news_european-command-news.txt'):
+
+            if os.path.exists('./data/defcon_news_european-command.txt'):
                 var_tbx[30].setText("")
-                with codecs.open('./defcon_news_european-command-news.txt', 'r', encoding='utf8') as fo:
+                with codecs.open('./data/defcon_news_european-command.txt', 'r', encoding='utf8') as fo:
                     for line in fo:
                         line = line.strip()
                         var_tbx[30].append(line)
@@ -489,6 +501,7 @@ def btnx_double_16_0_timer_clicked_function():
 
 def btnx_double_16_function():
     if auto_gen_main_page.main_page == 0:
+        module_defcon.bool_defcon[5] = False
         if auto_gen_btnx_double_bool.btnx_double_16_0_bool is True:
             auto_gen_btnx_double_bool.btnx_double_16_0_bool = False
             print('[btnx_double_16] [Page ' + str(auto_gen_main_page.main_page) + '] [Bool ' + str(auto_gen_btnx_double_bool.btnx_double_16_0_bool) + ']')
@@ -497,9 +510,10 @@ def btnx_double_16_function():
         elif auto_gen_btnx_double_bool.btnx_double_16_0_bool is False:
             auto_gen_btnx_double_bool.btnx_double_16_0_bool = True
             print('[btnx_double_16] [Page ' + str(auto_gen_main_page.main_page) + '] [Bool ' + str(auto_gen_btnx_double_bool.btnx_double_16_0_bool) + ']')
-            if os.path.exists('./defcon_news_indo-pacific-command-news.txt'):
+
+            if os.path.exists('./data/defcon_news_indo-pacific-command.txt'):
                 var_tbx[30].setText("")
-                with codecs.open('./defcon_news_indo-pacific-command-news.txt', 'r', encoding='utf8') as fo:
+                with codecs.open('./data/defcon_news_indo-pacific-command.txt', 'r', encoding='utf8') as fo:
                     for line in fo:
                         line = line.strip()
                         var_tbx[30].append(line)
@@ -547,6 +561,7 @@ def btnx_double_18_0_timer_clicked_function():
 
 def btnx_double_18_function():
     if auto_gen_main_page.main_page == 0:
+        module_defcon.bool_defcon[6] = False
         if auto_gen_btnx_double_bool.btnx_double_18_0_bool is True:
             auto_gen_btnx_double_bool.btnx_double_18_0_bool = False
             print('[btnx_double_18] [Page ' + str(auto_gen_main_page.main_page) + '] [Bool ' + str(auto_gen_btnx_double_bool.btnx_double_18_0_bool) + ']')
@@ -555,9 +570,10 @@ def btnx_double_18_function():
         elif auto_gen_btnx_double_bool.btnx_double_18_0_bool is False:
             auto_gen_btnx_double_bool.btnx_double_18_0_bool = True
             print('[btnx_double_18] [Page ' + str(auto_gen_main_page.main_page) + '] [Bool ' + str(auto_gen_btnx_double_bool.btnx_double_18_0_bool) + ']')
-            if os.path.exists('./defcon_news_northern-command-news.txt'):
+
+            if os.path.exists('./data/defcon_news_northern-command.txt'):
                 var_tbx[30].setText("")
-                with codecs.open('./defcon_news_northern-command-news.txt', 'r', encoding='utf8') as fo:
+                with codecs.open('./data/defcon_news_northern-command.txt', 'r', encoding='utf8') as fo:
                     for line in fo:
                         line = line.strip()
                         var_tbx[30].append(line)
@@ -605,6 +621,7 @@ def btnx_double_20_0_timer_clicked_function():
 
 def btnx_double_20_function():
     if auto_gen_main_page.main_page == 0:
+        module_defcon.bool_defcon[7] = False
         if auto_gen_btnx_double_bool.btnx_double_20_0_bool is True:
             auto_gen_btnx_double_bool.btnx_double_20_0_bool = False
             print('[btnx_double_20] [Page ' + str(auto_gen_main_page.main_page) + '] [Bool ' + str(auto_gen_btnx_double_bool.btnx_double_20_0_bool) + ']')
@@ -613,9 +630,10 @@ def btnx_double_20_function():
         elif auto_gen_btnx_double_bool.btnx_double_20_0_bool is False:
             auto_gen_btnx_double_bool.btnx_double_20_0_bool = True
             print('[btnx_double_20] [Page ' + str(auto_gen_main_page.main_page) + '] [Bool ' + str(auto_gen_btnx_double_bool.btnx_double_20_0_bool) + ']')
-            if os.path.exists('./defcon_news_southern-command-news.txt'):
+
+            if os.path.exists('./data/defcon_news_southern-command.txt'):
                 var_tbx[30].setText("")
-                with codecs.open('./defcon_news_southern-command-news.txt', 'r', encoding='utf8') as fo:
+                with codecs.open('./data/defcon_news_southern-command.txt', 'r', encoding='utf8') as fo:
                     for line in fo:
                         line = line.strip()
                         var_tbx[30].append(line)
@@ -663,6 +681,7 @@ def btnx_double_22_0_timer_clicked_function():
 
 def btnx_double_22_function():
     if auto_gen_main_page.main_page == 0:
+        module_defcon.bool_defcon[8] = False
         if auto_gen_btnx_double_bool.btnx_double_22_0_bool is True:
             auto_gen_btnx_double_bool.btnx_double_22_0_bool = False
             print('[btnx_double_22] [Page ' + str(auto_gen_main_page.main_page) + '] [Bool ' + str(auto_gen_btnx_double_bool.btnx_double_22_0_bool) + ']')
@@ -671,9 +690,10 @@ def btnx_double_22_function():
         elif auto_gen_btnx_double_bool.btnx_double_22_0_bool is False:
             auto_gen_btnx_double_bool.btnx_double_22_0_bool = True
             print('[btnx_double_22] [Page ' + str(auto_gen_main_page.main_page) + '] [Bool ' + str(auto_gen_btnx_double_bool.btnx_double_22_0_bool) + ']')
-            if os.path.exists('./defcon_news_space-command-news.txt'):
+
+            if os.path.exists('./data/defcon_news_space-command.txt'):
                 var_tbx[30].setText("")
-                with codecs.open('./defcon_news_space-command-news.txt', 'r', encoding='utf8') as fo:
+                with codecs.open('./data/defcon_news_space-command.txt', 'r', encoding='utf8') as fo:
                     for line in fo:
                         line = line.strip()
                         var_tbx[30].append(line)
@@ -721,6 +741,7 @@ def btnx_double_24_0_timer_clicked_function():
     print(btnx_double_24_0_timer_clicked_function)
 
 def btnx_double_24_function():
+    module_defcon.bool_defcon[9] = False
     if auto_gen_btnx_double_bool.btnx_double_24_0_bool is True:
         auto_gen_btnx_double_bool.btnx_double_24_0_bool = False
         print('[btnx_double_24] [Page ' + str(auto_gen_main_page.main_page) + '] [Bool ' + str(auto_gen_btnx_double_bool.btnx_double_24_0_bool) + ']')
@@ -729,9 +750,10 @@ def btnx_double_24_function():
     elif auto_gen_btnx_double_bool.btnx_double_24_0_bool is False:
         auto_gen_btnx_double_bool.btnx_double_24_0_bool = True
         print('[btnx_double_24] [Page ' + str(auto_gen_main_page.main_page) + '] [Bool ' + str(auto_gen_btnx_double_bool.btnx_double_24_0_bool) + ']')
-        if os.path.exists('./defcon_news_special-operations-command-news.txt'):
+
+        if os.path.exists('./data/defcon_news_special-operations-command.txt'):
             var_tbx[30].setText("")
-            with codecs.open('./defcon_news_special-operations-command-news.txt', 'r', encoding='utf8') as fo:
+            with codecs.open('./data/defcon_news_special-operations-command.txt', 'r', encoding='utf8') as fo:
                 for line in fo:
                     line = line.strip()
                     var_tbx[30].append(line)
@@ -778,6 +800,7 @@ def btnx_double_26_0_timer_clicked_function():
     print(btnx_double_26_0_timer_clicked_function)
 
 def btnx_double_26_function():
+    module_defcon.bool_defcon[10] = False
     if auto_gen_btnx_double_bool.btnx_double_26_0_bool is True:
         auto_gen_btnx_double_bool.btnx_double_26_0_bool = False
         print('[btnx_double_26] [Page ' + str(auto_gen_main_page.main_page) + '] [Bool ' + str(auto_gen_btnx_double_bool.btnx_double_26_0_bool) + ']')
@@ -786,9 +809,10 @@ def btnx_double_26_function():
     elif auto_gen_btnx_double_bool.btnx_double_26_0_bool is False:
         auto_gen_btnx_double_bool.btnx_double_26_0_bool = True
         print('[btnx_double_26] [Page ' + str(auto_gen_main_page.main_page) + '] [Bool ' + str(auto_gen_btnx_double_bool.btnx_double_26_0_bool) + ']')
-        if os.path.exists('./defcon_news_strategic-command-news.txt'):
+
+        if os.path.exists('./data/defcon_news_strategic-command.txt'):
             var_tbx[30].setText("")
-            with codecs.open('./defcon_news_strategic-command-news.txt', 'r', encoding='utf8') as fo:
+            with codecs.open('./data/defcon_news_strategic-command.txt', 'r', encoding='utf8') as fo:
                 for line in fo:
                     line = line.strip()
                     var_tbx[30].append(line)
@@ -836,7 +860,7 @@ def btnx_double_28_0_timer_clicked_function():
 
 def btnx_double_28_function():
     if auto_gen_main_page.main_page == 0:
-
+        module_defcon.bool_defcon[11] = False
         if auto_gen_btnx_double_bool.btnx_double_28_0_bool is True:
             auto_gen_btnx_double_bool.btnx_double_28_0_bool = False
             print('[btnx_double_28] [Page ' + str(auto_gen_main_page.main_page) + '] [Bool ' + str(auto_gen_btnx_double_bool.btnx_double_28_0_bool) + ']')
@@ -845,9 +869,10 @@ def btnx_double_28_function():
         elif auto_gen_btnx_double_bool.btnx_double_28_0_bool is False:
             auto_gen_btnx_double_bool.btnx_double_28_0_bool = True
             print('[btnx_double_28] [Page ' + str(auto_gen_main_page.main_page) + '] [Bool ' + str(auto_gen_btnx_double_bool.btnx_double_28_0_bool) + ']')
-            if os.path.exists('./defcon_news_transportation-command-news.txt'):
+
+            if os.path.exists('./data/defcon_news_transportation-command.txt'):
                 var_tbx[30].setText("")
-                with codecs.open('./defcon_news_transportation-command-news.txt', 'r', encoding='utf8') as fo:
+                with codecs.open('./data/defcon_news_transportation-command.txt', 'r', encoding='utf8') as fo:
                     for line in fo:
                         line = line.strip()
                         var_tbx[30].append(line)
@@ -1190,160 +1215,3 @@ def btnx_double_41_function():
             auto_gen_btnx_double_bool.btnx_double_41_0_bool = True
             print('[btnx_double_41] [Page ' + str(auto_gen_main_page.main_page) + '] [Bool ' + str(auto_gen_btnx_double_bool.btnx_double_41_0_bool) + ']')
             # btnx_double_41_0_start_timer_function()
-
-@PyQt5.QtCore.pyqtSlot()
-def btnx_double_42_0_start_timer_function():
-    global var_btnx_double_timer_sub
-    var_btnx_double_timer_sub[41].start()
-
-@PyQt5.QtCore.pyqtSlot()
-def btnx_double_42_0_stop_timer_function():
-    global var_btnx_double_timer_sub
-    var_btnx_double_timer_sub[41].stop()
-
-@PyQt5.QtCore.pyqtSlot()
-def btnx_double_42_0_timer_clicked_function():
-    print(btnx_double_42_0_timer_clicked_function)
-
-def btnx_double_42_function():
-    if auto_gen_main_page.main_page == 0:
-        if auto_gen_btnx_double_bool.btnx_double_42_0_bool is True:
-            auto_gen_btnx_double_bool.btnx_double_42_0_bool = False
-            print('[btnx_double_42] [Page ' + str(auto_gen_main_page.main_page) + '] [Bool ' + str(auto_gen_btnx_double_bool.btnx_double_42_0_bool) + ']')
-            # btnx_double_42_0_stop_timer_function()
-
-        elif auto_gen_btnx_double_bool.btnx_double_42_0_bool is False:
-            auto_gen_btnx_double_bool.btnx_double_42_0_bool = True
-            print('[btnx_double_42] [Page ' + str(auto_gen_main_page.main_page) + '] [Bool ' + str(auto_gen_btnx_double_bool.btnx_double_42_0_bool) + ']')
-            # btnx_double_42_0_start_timer_function()
-
-@PyQt5.QtCore.pyqtSlot()
-def btnx_double_43_0_start_timer_function():
-    global var_btnx_double_timer_sub
-    var_btnx_double_timer_sub[42].start()
-
-@PyQt5.QtCore.pyqtSlot()
-def btnx_double_43_0_stop_timer_function():
-    global var_btnx_double_timer_sub
-    var_btnx_double_timer_sub[42].stop()
-
-@PyQt5.QtCore.pyqtSlot()
-def btnx_double_43_0_timer_clicked_function():
-    print(btnx_double_43_0_timer_clicked_function)
-
-def btnx_double_43_function():
-    if auto_gen_main_page.main_page == 0:
-        if auto_gen_btnx_double_bool.btnx_double_43_0_bool is True:
-            auto_gen_btnx_double_bool.btnx_double_43_0_bool = False
-            print('[btnx_double_43] [Page ' + str(auto_gen_main_page.main_page) + '] [Bool ' + str(auto_gen_btnx_double_bool.btnx_double_43_0_bool) + ']')
-            # btnx_double_43_0_stop_timer_function()
-
-        elif auto_gen_btnx_double_bool.btnx_double_43_0_bool is False:
-            auto_gen_btnx_double_bool.btnx_double_43_0_bool = True
-            print('[btnx_double_43] [Page ' + str(auto_gen_main_page.main_page) + '] [Bool ' + str(auto_gen_btnx_double_bool.btnx_double_43_0_bool) + ']')
-            # btnx_double_43_0_start_timer_function()
-
-@PyQt5.QtCore.pyqtSlot()
-def btnx_double_44_0_start_timer_function():
-    global var_btnx_double_timer_sub
-    var_btnx_double_timer_sub[43].start()
-
-@PyQt5.QtCore.pyqtSlot()
-def btnx_double_44_0_stop_timer_function():
-    global var_btnx_double_timer_sub
-    var_btnx_double_timer_sub[43].stop()
-
-@PyQt5.QtCore.pyqtSlot()
-def btnx_double_44_0_timer_clicked_function():
-    print(btnx_double_44_0_timer_clicked_function)
-
-def btnx_double_44_function():
-    if auto_gen_main_page.main_page == 0:
-        if auto_gen_btnx_double_bool.btnx_double_44_0_bool is True:
-            auto_gen_btnx_double_bool.btnx_double_44_0_bool = False
-            print('[btnx_double_44] [Page ' + str(auto_gen_main_page.main_page) + '] [Bool ' + str(auto_gen_btnx_double_bool.btnx_double_44_0_bool) + ']')
-            # btnx_double_44_0_stop_timer_function()
-
-        elif auto_gen_btnx_double_bool.btnx_double_44_0_bool is False:
-            auto_gen_btnx_double_bool.btnx_double_44_0_bool = True
-            print('[btnx_double_44] [Page ' + str(auto_gen_main_page.main_page) + '] [Bool ' + str(auto_gen_btnx_double_bool.btnx_double_44_0_bool) + ']')
-            # btnx_double_44_0_start_timer_function()
-
-@PyQt5.QtCore.pyqtSlot()
-def btnx_double_45_0_start_timer_function():
-    global var_btnx_double_timer_sub
-    var_btnx_double_timer_sub[44].start()
-
-@PyQt5.QtCore.pyqtSlot()
-def btnx_double_45_0_stop_timer_function():
-    global var_btnx_double_timer_sub
-    var_btnx_double_timer_sub[44].stop()
-
-@PyQt5.QtCore.pyqtSlot()
-def btnx_double_45_0_timer_clicked_function():
-    print(btnx_double_45_0_timer_clicked_function)
-
-def btnx_double_45_function():
-    if auto_gen_main_page.main_page == 0:
-        if auto_gen_btnx_double_bool.btnx_double_45_0_bool is True:
-            auto_gen_btnx_double_bool.btnx_double_45_0_bool = False
-            print('[btnx_double_45] [Page ' + str(auto_gen_main_page.main_page) + '] [Bool ' + str(auto_gen_btnx_double_bool.btnx_double_45_0_bool) + ']')
-            # btnx_double_45_0_stop_timer_function()
-
-        elif auto_gen_btnx_double_bool.btnx_double_45_0_bool is False:
-            auto_gen_btnx_double_bool.btnx_double_45_0_bool = True
-            print('[btnx_double_45] [Page ' + str(auto_gen_main_page.main_page) + '] [Bool ' + str(auto_gen_btnx_double_bool.btnx_double_45_0_bool) + ']')
-            # btnx_double_45_0_start_timer_function()
-
-@PyQt5.QtCore.pyqtSlot()
-def btnx_double_46_0_start_timer_function():
-    global var_btnx_double_timer_sub
-    var_btnx_double_timer_sub[45].start()
-
-@PyQt5.QtCore.pyqtSlot()
-def btnx_double_46_0_stop_timer_function():
-    global var_btnx_double_timer_sub
-    var_btnx_double_timer_sub[45].stop()
-
-@PyQt5.QtCore.pyqtSlot()
-def btnx_double_46_0_timer_clicked_function():
-    print(btnx_double_46_0_timer_clicked_function)
-
-def btnx_double_46_function():
-    if auto_gen_main_page.main_page == 0:
-        if auto_gen_btnx_double_bool.btnx_double_46_0_bool is True:
-            auto_gen_btnx_double_bool.btnx_double_46_0_bool = False
-            print('[btnx_double_46] [Page ' + str(auto_gen_main_page.main_page) + '] [Bool ' + str(auto_gen_btnx_double_bool.btnx_double_46_0_bool) + ']')
-            # btnx_double_46_0_stop_timer_function()
-
-        elif auto_gen_btnx_double_bool.btnx_double_46_0_bool is False:
-            auto_gen_btnx_double_bool.btnx_double_46_0_bool = True
-            print('[btnx_double_46] [Page ' + str(auto_gen_main_page.main_page) + '] [Bool ' + str(auto_gen_btnx_double_bool.btnx_double_46_0_bool) + ']')
-            # btnx_double_46_0_start_timer_function()
-
-@PyQt5.QtCore.pyqtSlot()
-def btnx_double_47_0_start_timer_function():
-    global var_btnx_double_timer_sub
-    var_btnx_double_timer_sub[46].start()
-
-@PyQt5.QtCore.pyqtSlot()
-def btnx_double_47_0_stop_timer_function():
-    global var_btnx_double_timer_sub
-    var_btnx_double_timer_sub[46].stop()
-
-@PyQt5.QtCore.pyqtSlot()
-def btnx_double_47_0_timer_clicked_function():
-    print(btnx_double_47_0_timer_clicked_function)
-
-def btnx_double_47_function():
-    if auto_gen_main_page.main_page == 0:
-        if auto_gen_btnx_double_bool.btnx_double_47_0_bool is True:
-            auto_gen_btnx_double_bool.btnx_double_47_0_bool = False
-            print('[btnx_double_47] [Page ' + str(auto_gen_main_page.main_page) + '] [Bool ' + str(auto_gen_btnx_double_bool.btnx_double_47_0_bool) + ']')
-            # btnx_double_47_0_stop_timer_function()
-
-        elif auto_gen_btnx_double_bool.btnx_double_47_0_bool is False:
-            auto_gen_btnx_double_bool.btnx_double_47_0_bool = True
-            print('[btnx_double_47] [Page ' + str(auto_gen_main_page.main_page) + '] [Bool ' + str(auto_gen_btnx_double_bool.btnx_double_47_0_bool) + ']')
-            # btnx_double_47_0_start_timer_function()
-
