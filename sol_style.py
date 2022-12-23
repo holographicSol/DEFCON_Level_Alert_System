@@ -11,10 +11,10 @@ self_style = """
 
 QMainWindow {background-color: rgb(0, 0, 0);
 color: rgb(200, 200, 200);
-border-top:"""+str(main_border_height)+"""px solid rgb(20, 20, 50);
-border-bottom:"""+str(main_border_height)+"""px solid rgb(20, 20, 50);
-border-right:"""+str(main_border_height)+"""px solid rgb(20, 20, 50);
-border-left:"""+str(main_border_height)+"""px solid rgb(20, 20, 50);
+border-top:"""+str(main_border_height)+"""px solid rgb(0, 0, 20);
+border-bottom:"""+str(main_border_height)+"""px solid rgb(0, 0, 20);
+border-right:"""+str(main_border_height)+"""px solid rgb(0, 0, 20);
+border-left:"""+str(main_border_height)+"""px solid rgb(0, 0, 20);
 }
 
 QToolTip {background-color: rgb(35, 35, 35);
