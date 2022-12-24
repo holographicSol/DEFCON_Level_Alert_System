@@ -47,7 +47,7 @@ import module_defcon
 import module_help
 
 thread_nuclear_strike_imminent = []
-defcon_update_time = 180
+defcon_update_time = 30
 prev_defcon_level = []
 i = 0
 while i < 9:
@@ -638,7 +638,7 @@ class App(QMainWindow):
         self.base_label_0 = QLabel(self)
         self.base_label_0.move(main_border_height, main_border_height + (btn_size_titlebar * 3) + 6)
         self.base_label_0.resize(632 - (main_border_height*2), 900 - (main_border_height*2) - (btn_size_titlebar * 2) - 20)
-        self.base_label_0.setStyleSheet("""QLabel{background-color: rgb(12, 12, 12);
+        self.base_label_0.setStyleSheet("""QLabel{background-color: rgb(11, 11, 11);
                     color: rgb(255, 255, 255);
                     border-top:2px solid rgb(0, 0, 0);
                     border-bottom:2px solid rgb(0, 0, 0);
@@ -2042,6 +2042,9 @@ class App(QMainWindow):
 
         self.thread_0.start()
 
+        thread_news_alerts = news_alerts()
+        thread_news_alerts.start()
+
         # if debug_enable_bool is True:
         #     debug_messages.append(str('[' + str(datetime.datetime.now()) + '] [App.initUI] displaying application'))
 
@@ -2163,6 +2166,61 @@ class App(QMainWindow):
         except Exception as e:
             print(str('[' + str(datetime.datetime.now()) + ']' + str(e)))
             # debug_messages.append(str('[' + str(datetime.datetime.now()) + ']' + str(e)))
+
+
+class news_alerts(QThread):
+    def __init__(self):
+        QThread.__init__(self)
+
+    def run(self):
+        defcon_l = [6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28]
+        # player_0.play()  use this and run once per change.
+        i_2 = False
+        while True:
+            try:
+                i = 0
+                for _ in module_defcon.bool_defcon:
+                    if _ is True:
+                        if i_2 is False:
+                            lblx_var[defcon_l[i]].setStyleSheet("""QLabel{background-color: rgb(0, 0, 25);
+                                    color: rgb(255, 255, 255);
+                                    border-top:2px solid rgb(0, 0, 0);
+                                    border-bottom:4px solid rgb(0, 0, 0);
+                                    border-right:4px solid rgb(0, 0, 0);
+                                    border-left:4px solid rgb(0, 0, 0);
+                                    outline: 0;}
+                                    """)
+                        elif i_2 is True:
+                            lblx_var[defcon_l[i]].setStyleSheet("""QLabel{background-color: rgb(0, 0, 0);
+                                                                color: rgb(255, 255, 255);
+                                                                border-top:2px solid rgb(0, 0, 0);
+                                                                border-bottom:2px solid rgb(0, 0, 0);
+                                                                border-right:2px solid rgb(0, 0, 0);
+                                                                border-left:2px solid rgb(0, 0, 0);
+                                                                outline: 0;}
+                                                                """)
+                    else:
+                        lblx_var[defcon_l[i]].setStyleSheet("""QLabel{background-color: rgb(0, 0, 0);
+                                color: rgb(255, 255, 255);
+                                border-top:2px solid rgb(0, 0, 0);
+                                border-bottom:2px solid rgb(0, 0, 0);
+                                border-right:2px solid rgb(0, 0, 0);
+                                border-left:2px solid rgb(0, 0, 0);
+                                outline: 0;}
+                                """)
+                    i += 1
+
+                if i_2 is False:
+                    i_2 = True
+                else:
+                    i_2 = False
+
+            except Exception as e:
+                print(e)
+            time.sleep(0.3)
+
+    def stop(self):
+        print('-- attempting to terminate: news_alerts thread')
 
 
 class NUCLEAR_STRIKE_IMMINENT(QThread):
@@ -2381,7 +2439,6 @@ class Class0(QThread):
                 technical_data = str('[' + str(datetime.datetime.now()) + '] [SYSTEM] [DEFCON] ' + str(e))
                 debug_messages.append(technical_data)
                 time.sleep(5)
-                self.run()
 
             debug_messages.append(str('[' + str(datetime.datetime.now()) + '] [SYSTEM] [DEFCON] next update after: ' + str(next_defcon_update_dttime)))
             while not t1 > next_defcon_update_time:
