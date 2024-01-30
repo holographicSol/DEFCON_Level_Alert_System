@@ -1,5 +1,7 @@
 # DEFCON_Level_Alert_System
 
+NEEDS UPDATE.
+
 A Nuke alarm.
 
 Pulls down DEFCON levels and military news from https://www.defconlevel.com/ and stores the data locally in case offline.
